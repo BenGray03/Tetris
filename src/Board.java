@@ -36,8 +36,8 @@ public class Board {
     }
 
     public void draw(){
-        for (int i = 0; i < tetroids.size(); i++) {
-            int[][] blocks = tetroids.get(i).getBlocks();
+        for (Tetroids tetroid : tetroids) {
+            int[][] blocks = tetroid.getBlocks();
             for (int[] block : blocks) {
                 board[block[0]][block[1]] = '#';
             }
@@ -45,9 +45,11 @@ public class Board {
     }
 
     public void turn(){
-        if(checkPossible()) {
+        if(checkPossible(0, 1)) {
             current.goDown();
         }else{
+            //add checking of completed line only when switching to the next block
+
             //go to next tetroid
             current = player.pop();
             //pop next tetroid of queue and return
@@ -58,13 +60,13 @@ public class Board {
         print();
     }
 
-    public boolean checkPossible() {
+    public boolean checkPossible(int xadd, int yadd) {
         int[][] blocks = current.getBlocks();
         int[][] tetroidBlocks = current.getBlocks(); // Get blocks of the current tetroid
 
         for (int[] block : blocks) {
-            int x = block[1];//add a check that sees if the user is going left/right/down and will check that block instead.
-            int y = block[0] + 1;
+            int x = block[1]+xadd;//add a check that sees if the user is going left/right/down and will check that block instead.
+            int y = block[0]+yadd;
 
             // Check if the block is outside the board's boundaries
             if (x < 0 || x >= 10 || y >= 15) {
@@ -78,6 +80,8 @@ public class Board {
         }
         return true;
     }
+
+
 
     private boolean isBlockInTetroid(int x, int y, int[][] tetroidBlocks) {
         for (int[] tetroidBlock : tetroidBlocks) {
