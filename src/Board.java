@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Board {
     protected char [][] board;
 
@@ -96,7 +98,6 @@ public class Board {
     }
 
 
-
     private boolean isBlockInTetroid(int x, int y, int[][] tetroidBlocks) {
         for (int[] tetroidBlock : tetroidBlocks) {
             if (tetroidBlock[1] == x && tetroidBlock[0] == y) {
@@ -107,11 +108,30 @@ public class Board {
     }
 
     private void checkBoard(){
+        int [] lines = new int[15];
         for(int i = 0; i < 15; i++) {
-            boolean result = checkFullLine(board[i]);
-            System.out.println(result);
+            lines[i] = checkFullLine(board[i]) ? 1 : 0;
         }
+        obliterateLines(lines);
+    }
 
+    private void obliterateLines(int [] lines){
+        for (int i = 0; i < lines.length; i++) {
+            if(lines[i]==1){
+                //destroy the line
+                Arrays.fill(board[i], '.');
+                //pull down all '#' above to bring down
+                for (int j = i-1; j >= 0; j--) {
+                    for (int k = 0; k < 10; k++) {
+                        if (board[j][k] == '#') {
+                            board[j][k] = '.';
+                            board[j + 1][k] = '#';
+                        }
+                    }
+                }
+            }
+        }
+        print();
     }
     private boolean checkFullLine(char[] line){
         for (char block: line) {
