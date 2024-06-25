@@ -129,7 +129,6 @@ public class Board {
                 }
             }
         }
-        print();
     }
     private boolean checkFullLine(char[] line){
         for (char block: line) {

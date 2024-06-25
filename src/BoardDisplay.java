@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class BoardDisplay extends JPanel {
     private final int TILE_SIZE = 30; // Size of each tile
@@ -8,6 +9,41 @@ public class BoardDisplay extends JPanel {
     public BoardDisplay(Board board) {
         this.board = board;
         setPreferredSize(new Dimension(board.board[0].length * TILE_SIZE, board.board.length * TILE_SIZE));
+        // Set up key bindings
+        InputMap inputMap = getInputMap(WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = getActionMap();
+
+        // Right arrow key binding
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "rightArrow");
+        actionMap.put("rightArrow", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                board.turn(1); // Perform right arrow action on the board
+                updateBoard();
+            }
+        });
+
+        // Left arrow key binding
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "leftArrow");
+        actionMap.put("leftArrow", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                board.turn(-1);
+                updateBoard();
+            }
+        });
+
+        // Down arrow key binding
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "downArrow");
+        actionMap.put("downArrow", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                board.turn(0); // Perform down arrow action on the board
+                updateBoard();
+            }
+        });
+
+        setFocusable(true);
     }
 
     @Override
