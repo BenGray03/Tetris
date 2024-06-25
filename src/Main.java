@@ -8,11 +8,11 @@ public class Main {
         board.init();
         try {
             for (int i = 0; i < 1000; i++) {
-                board.turn();
+                board.turn(0);
                 TimeUnit.MILLISECONDS.sleep(1000);
             }
         }catch (Exception e){
-            System.out.println("Exception occurred: "+ e.getCause());
+            System.out.println("Exception occurred!");
         }
 
     }

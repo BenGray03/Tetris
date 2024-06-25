@@ -1,10 +1,13 @@
 import java.util.ArrayList;
 public class Board {
     protected char [][] board;
-    //list of tetroids in play
+
     protected ArrayList<Tetroids> tetroids;
+
     protected Tetroids current;
+
     protected Player player;
+
     public Board(int w, int h, Player p){
         board = new char [h][w];
         tetroids = new ArrayList<>();
@@ -12,6 +15,7 @@ public class Board {
         addtet();
         player = p;
     }
+
     public void init(){
         for(int i = 0; i < board.length; i++){
             for(int j = 0; j < board[i].length; j++){
@@ -44,16 +48,26 @@ public class Board {
         }
     }
 
-    public void turn(){
-        if(checkPossible(0, 1)) {
-            current.goDown();
-        }else{
-            //add checking of completed line only when switching to the next block
-
-            //go to next tetroid
-            current = player.pop();
-            //pop next tetroid of queue and return
-            addtet();
+    public void turn(int direction){
+        if(direction == 0) {
+            if (checkPossible(0, 1)) {
+                current.goDown();
+            } else {
+                //add checking of completed line only when switching to the next block
+                checkBoard();
+                //go to next tetroid
+                current = player.pop();
+                //pop next tetroid of queue and return
+                addtet();
+            }
+        } else if (direction == -1) {
+            if(checkPossible(-1, 0)){
+                current.goLeft();
+            }
+        }  else if (direction == 1){
+            if(checkPossible(1, 0)){
+                current.goRight();
+            }
         }
         init();
         draw();
@@ -92,6 +106,13 @@ public class Board {
         return false;
     }
 
+    private void checkBoard(){
+        for(int i = 0; i < 15; i++) {
+            boolean result = checkFullLine(board[i]);
+            System.out.println(result);
+        }
+
+    }
     private boolean checkFullLine(char[] line){
         for (char block: line) {
             if(block == '.'){
