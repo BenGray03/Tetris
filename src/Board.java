@@ -73,7 +73,6 @@ public class Board {
         }
         init();
         draw();
-        print();
     }
 
     public boolean checkPossible(int xadd, int yadd) {
@@ -96,7 +95,6 @@ public class Board {
         }
         return true;
     }
-
 
     private boolean isBlockInTetroid(int x, int y, int[][] tetroidBlocks) {
         for (int[] tetroidBlock : tetroidBlocks) {
