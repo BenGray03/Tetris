@@ -71,7 +71,6 @@ public class BoardDisplay extends JPanel {
     }
 
     public void updateBoard() {
-        board.turn(0);
         revalidate();
         repaint();
     }

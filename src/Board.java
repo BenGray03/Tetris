@@ -14,7 +14,7 @@ public class Board {
         board = new char [h][w];
         tetroids = new ArrayList<>();
         current = p.pop();
-        addtet();
+        addTet();
         player = p;
     }
 
@@ -37,9 +37,10 @@ public class Board {
         System.out.println();
     }
 
-    public void addtet(){//done
+    public void addTet(){//done
         tetroids.add(current);
     }
+
 
     public void draw(){
         for (Tetroids tetroid : tetroids) {
@@ -57,10 +58,10 @@ public class Board {
             } else {
                 //add checking of completed line only when switching to the next block
                 checkBoard();
-                //go to next tetroid
+                //go to next Tetroid
                 current = player.pop();
-                //pop next tetroid of queue and return
-                addtet();
+                //pop next Tetroid of queue and return
+                addTet();
             }
         } else if (direction == -1) {
             if(checkPossible(-1, 0)){
@@ -75,20 +76,20 @@ public class Board {
         draw();
     }
 
-    public boolean checkPossible(int xadd, int yadd) {
+    public boolean checkPossible(int xAdd, int yAdd) {
         int[][] blocks = current.getBlocks();
         int[][] tetroidBlocks = current.getBlocks(); // Get blocks of the current tetroid
 
         for (int[] block : blocks) {
-            int x = block[1]+xadd;//add a check that sees if the user is going left/right/down and will check that block instead.
-            int y = block[0]+yadd;
+            int x = block[1]+xAdd;//add a check that sees if the user is going left/right/down and will check that block instead.
+            int y = block[0]+yAdd;
 
             // Check if the block is outside the board's boundaries
             if (x < 0 || x >= 10 || y >= 15) {
                 return false;
             }
 
-            // Check if there's a block at the same position on the board and it's not part of the same tetroid
+            // Check if there's a block at the same position on the board, and it's not part of the same tetroid
             if (y >= 0 && board[y][x] == '#' && !isBlockInTetroid(x, y, tetroidBlocks)) {
                 return false;
             }

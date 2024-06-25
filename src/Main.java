@@ -22,7 +22,7 @@ public class Main {
             try {
                 boardDisplay.updateBoard();
                 TimeUnit.MILLISECONDS.sleep(1000);
-
+                board.turn(0);
             } catch (Exception e) {
                 System.out.println("Exception Occurred");
             }
